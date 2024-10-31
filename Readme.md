@@ -17,7 +17,7 @@ Dalam final project ini, kelompok kami ingin membuat machine learning yang bertu
 1. Download data [here](https://drive.google.com/drive/folders/1q0uoNhUzHYL3TmhfwtFL-Xnb26rwOzRF?usp=sharing)
 2. Clone repositori ini:
    ```bash
-   git clone https://github.com/Podjan/ResNet.git
+   git clone https://github.com/Podjan/ResNet2.git
 
 ## Penjelasan Sebelum EDA
 ### Dataset
@@ -110,7 +110,7 @@ Goals yang ingin dicapai dalam studi case ini adalah meningkatkan jumlah custome
 - minimum_nights
 - maximum_nights
 - review_scores_rating
-- rreview_scores_accuracy
+- review_scores_accuracy
 - review_scores_cleanliness
 - review_scores_checkin
 - review_scores_communication
