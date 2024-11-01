@@ -134,5 +134,59 @@ Goals yang ingin dicapai dalam studi case ini adalah meningkatkan jumlah custome
 
 ### Multivariate Analysis
 #### df1
+**Heatmap df1**
+Heatmap ini menunjukkan matriks korelasi antar variabel dalam dataset, yaitu tahun, bulan_num, median_price, dan jumlah_id. Berikut penjelasan dari korelasi antar variabel:
+1. tahun dengan bulan_num (-0.40):
+Korelasi negatif lemah, yang menunjukkan bahwa ketika tahun meningkat, bulan_num cenderung sedikit menurun. Namun, hubungan ini tidak terlalu kuat, sehingga tidak ada keterkaitan yang jelas antara tahun dan bulan_num.
+2. tahun dengan median_price (0.01):
+Korelasi hampir nol, yang menunjukkan tidak ada hubungan linear antara tahun dan median_price. Ini berarti median_price tidak berubah secara konsisten seiring perubahan tahun.
+3. tahun dengan jumlah_id (-0.76):
+Korelasi negatif cukup kuat, menunjukkan bahwa ketika tahun meningkat, jumlah_id cenderung menurun. Hal ini bisa menunjukkan adanya tren menurun pada jumlah_id seiring bertambahnya tahun.
+4. bulan_num dengan median_price (0.05):
+Korelasi hampir nol, menunjukkan tidak ada hubungan linear yang signifikan antara bulan_num dan median_price. Ini berarti bahwa perubahan dalam bulan_num tidak mempengaruhi median_price secara konsisten.
+5. bulan_num dengan jumlah_id (0.51):
+Korelasi positif moderat, yang menunjukkan bahwa ketika bulan_num meningkat, jumlah_id cenderung ikut meningkat. Ada kecenderungan bahwa jumlah_id lebih tinggi di bulan-bulan tertentu.
+6. median_price dengan jumlah_id (0.01):
+Korelasi sangat rendah atau hampir nol, yang menunjukkan bahwa tidak ada hubungan linear antara median_price dan jumlah_id. Dengan kata lain, median_price dan jumlah_id tidak mempengaruhi satu sama lain secara langsung.
 
 #### df2
+**Heatmap df2**
+1. Korelasi Antar Variabel Fasilitas Properti 
+accommodates, bathrooms, bedrooms, dan beds:
+Terdapat korelasi yang cukup tinggi di antara variabel ini. Contohnya:
+- accommodates dan bedrooms memiliki korelasi sebesar 0.77.
+- bedrooms dan beds memiliki korelasi sebesar 0.75.
+Korelasi yang tinggi ini menunjukkan bahwa jumlah kamar tidur (bedrooms), kamar mandi (bathrooms), dan tempat tidur (beds) cenderung bertambah seiring bertambahnya kapasitas (accommodates) properti. Hal ini logis karena properti yang lebih besar biasanya memiliki lebih banyak fasilitas.
+price, weekly_price, dan monthly_price:
+- Korelasi yang sangat tinggi antara price, weekly_price, dan monthly_price (0.94 hingga 1.00) menunjukkan bahwa harga harian, mingguan, dan bulanan sangat berhubungan dan sejalan. Ketika harga harian meningkat, harga mingguan dan bulanan juga cenderung meningkat.
+2. Korelasi Antar Variabel Skor Ulasan
+Variabel skor ulasan seperti review_scores_rating, review_scores_accuracy, review_scores_cleanliness, review_scores_checkin review_scores_communication, review_scores_location, dan review_scores_value memiliki korelasi positif yang cukup tinggi satu sama lain.
+Sebagai contoh:
+- review_scores_rating memiliki korelasi sebesar 0.70 dengan review_scores_cleanliness, 0.65 dengan review_scores_checkin, dan 0.70 dengan review_scores_value.
+Korelasi positif yang tinggi ini menunjukkan bahwa ketika suatu properti memiliki skor tinggi dalam satu aspek (misalnya cleanliness atau checkin), biasanya aspek lainnya juga mendapatkan skor tinggi. Ini dapat menunjukkan bahwa properti yang bagus dalam satu faktor cenderung berkinerja baik dalam faktor ulasan lainnya.
+3. Hubungan Fasilitas Properti dengan Harga
+accommodates, bathrooms, bedrooms, dan beds dengan price:
+- Semua variabel ini memiliki korelasi positif moderat dengan price (0.53 hingga 0.63), menunjukkan bahwa semakin banyak kapasitas atau fasilitas yang dimiliki properti (lebih banyak kamar tidur, kamar mandi, atau tempat tidur), maka harga cenderung lebih tinggi.
+guests_included dengan price:
+- Korelasi positif antara guests_included dan price (0.46) menunjukkan bahwa harga cenderung lebih tinggi untuk properti yang mencakup lebih banyak tamu dalam tarif dasar.
+4. Hubungan Skor Ulasan dengan Variabel Lain
+review_scores_location dengan review_scores_value (0.37):
+- Korelasi positif moderat menunjukkan bahwa properti yang memiliki nilai baik dalam location cenderung memiliki nilai tinggi juga dalam value.
+review_scores_value dengan accommodates dan price (-0.07):
+- Korelasi negatif kecil menunjukkan bahwa nilai ulasan value cenderung sedikit menurun jika kapasitas atau harga meningkat, yang bisa diartikan bahwa tamu merasa harga yang lebih tinggi atau kapasitas lebih besar tidak selalu sepadan.
+
+
+**TOP 5 HARGA MEDIAN TERATAS**
+![alt text](image-3.png)
+Gambar ini menampilkan diagram batang yang menunjukkan lima Listing ID dengan harga median tertinggi dalam dataset. Judul grafik di bagian atas, "TOP 5 HARGA MEDIAN TERATAS," menunjukkan bahwa fokus grafik ini adalah pada lima listing dengan nilai median harga tertinggi.
+Pada sumbu X, terdapat Listing ID yang merupakan identifikasi unik untuk setiap properti, yaitu 6119821, 6239108, 6387576, 6400379, dan 6403104. Sumbu Y menunjukkan harga median dari setiap listing dalam bentuk nilai numerik, dengan skala yang berkisar dari 0 hingga sekitar 100. Dari grafik ini, terlihat bahwa listing dengan ID 6387576 memiliki harga median tertinggi, diikuti oleh listing ID 6400379, sementara listing dengan ID 6119821 memiliki harga median terendah di antara lima listing yang ditampilkan.
+Di bagian atas grafik, terlihat potongan kode Python dalam Jupyter Notebook yang menunjukkan cara pembuatan grafik ini menggunakan matplotlib.pyplot. Kode tersebut mengatur sumbu X dengan label "Listing ID" dan sumbu Y dengan label "Median Price," serta menambahkan judul untuk grafik. 
+
+
+**TOP 5 LISTING BERDASARKAN HARGA TERTINGGI**
+![alt text](image-4.png)
+Gambar ini menampilkan diagram batang yang menunjukkan 5 Listing dengan Harga Tertinggi dalam dataset. Judul grafik, "Top 5 Listing Berdasarkan Harga Tertinggi," menjelaskan bahwa grafik ini menyajikan lima listing dengan nilai harga tertinggi.
+Pada sumbu X, terdapat Listing ID untuk setiap properti, yaitu 2720963, 3308979, 4464824, 4825073, dan 5534463. Setiap batang mewakili harga dari masing-masing listing, yang diukur pada sumbu Y dengan label "Price". Sumbu Y menampilkan rentang harga dari 0 hingga lebih dari 1000.
+Dari grafik ini, terlihat bahwa:
+- Listing ID 3308979 dan 4825073 memiliki harga yang hampir sama dan termasuk dalam listing dengan harga tertinggi.
+- Listing ID 5534463 memiliki harga yang lebih rendah dibandingkan empat listing lainnya tetapi masih termasuk dalam lima besar dengan harga tertinggi.
