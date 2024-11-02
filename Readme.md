@@ -9,16 +9,19 @@ Dalam final project ini, kelompok kami ingin membuat machine learning yang bertu
 
 ## Daftar Isi
 - [Prerequisites](#prerequisites)
+- [Flow](#flow)
 - [Penjelasan Sebelum EDA](#penjelasan-sebelum-eda)
 - [EDA](#eda)
 - [Business Insight](#business-insight)
-
 
 ## Prerequisites
 1. Download data [here](https://drive.google.com/drive/folders/1q0uoNhUzHYL3TmhfwtFL-Xnb26rwOzRF?usp=sharing)
 2. Clone repositori ini:
    ```bash
    git clone https://github.com/Podjan/ResNet2.git
+
+## Flow
+![drawioflow](drawioflow.png)
 
 ## Penjelasan Sebelum EDA
 ### Dataset
@@ -79,17 +82,17 @@ Goals yang ingin dicapai dalam studi case ini adalah meningkatkan jumlah custome
    df2 = dfl3
    ```
 
-### Kolom yang diambil
+### Fitur yang akan digunakan
 #### df1 (dataset calendar final)
 - listing_id
 - date
-- bulan_num
-- tahun
+- bulan_num **(tambahan fitur di dataset calendar)**
+- tahun **(tambahan fitur di dataset calendar)**
 - pendapatan
 #### df2 (dataset listing final)
 - listing_id
-- total_pendapatan
-- total_customer
+- total_pendapatan **(tambahan fitur di dataset listing)**
+- total_customer **(tambahan fitur di dataset listing)**
 - name
 - host_id
 - host_response_time
@@ -125,6 +128,7 @@ Goals yang ingin dicapai dalam studi case ini adalah meningkatkan jumlah custome
 - cancellation_policy
 - require_guest_profile_picture
 - require_guest_phone_verification
+#### Note: Untuk dataset review, dataset tersebut tidak kami masukkan sebagai model utama machine learning. Tetapi data itu akan kami gunakan sebagai model untuk melihat sentimen customer dari masing-masing listing. Kami menggunakan geminiAI untuk mengerjakan model tersebut. Untuk saat ini, codingnya ada di repository ini dengan nama API.ipynb.
 
 ## EDA
 ### Descriptive Statistic
@@ -228,7 +232,9 @@ Dari data tersebut tidak menunjukkan adanya data yang invalid. Selain itu, beber
 
 
 ### Univariate Analysis
+Pada analisis univariate, untuk df2, kami mengelompokkan kolom yang bertipe float dan integer ke kolom bernama nums (numerical). Karena ada 21, kami membagi nums tersebut menjadi 5, yaitu nums21,nums22, nums23, nums 24, dan nums25. Tujuannya, agar tidak memberatkan pc saat melakukan run codingnya.
 #### df1
+![df1](df1.png)
 1. **Listing ID**:
 Rentang nilai Listing ID sangat lebar. Tidak ada outlier yang signifikan.
 2. **Date**: Distribusi data sangat merata di sekitar bulan 4-10.
@@ -239,6 +245,7 @@ Untuk tahun 2017, data terakhir tahun 2017 adalah tanggal 2 bulan Januari 2017. 
 
 #### df2
 ##### nums21
+![df21](df21.png)
 1. **total_pendapatan**: Distribusi pendapatan semua listing terpusat di sekitar 250k, dengan outlier mulai di atas 100k
 2. **total_customer**: Distribusi terpusat di sekitar angka 300, menunjukkan total customer yang konsisten antar data. Kemungkinan mewakili jumlah ulasan atau interaksi, dengan nilai tinggi mengindikasikan listing yang populer.
 3. **host_response_rate**: Banyak host dengan tingkat respons tinggi, tetapi ada juga yang sangat rendah. Hal ini menunjukkan bahwa responsivitas host cukup beragam, dengan yang cepat lebih disukai tamu.
@@ -246,6 +253,7 @@ Untuk tahun 2017, data terakhir tahun 2017 adalah tanggal 2 bulan Januari 2017. 
 5. **accommodates**: Sebagian besar listing menampung hingga 4 orang, dengan beberapa outlier yang menampung lebih banyak. Kapasitas akomodasi beragam, dari 1-2 hingga lebih dari 8 orang.
 
 ##### nums22
+![df22](df22.png)
 1. **bathrooms**: Sebagian besar listing memiliki 1-2 kamar mandi, dengan beberapa outlier yang memiliki lebih banyak. Fasilitas kamar mandi bervariasi, meski mayoritas terbatas.
 2. **Bedrooms**: Sebagian besar listing memiliki 1-2 kamar tidur, cocok untuk individu atau keluarga kecil. Listing dengan lebih banyak kamar tidur biasanya untuk kelompok besar atau masa inap lebih lama.
 3. **Beds**: Umumnya ada 2-4 tempat tidur per listing, dengan beberapa memiliki lebih banyak. Beberapa listing menawarkan tempat tidur tambahan, seperti sofa bed.
@@ -253,6 +261,7 @@ Untuk tahun 2017, data terakhir tahun 2017 adalah tanggal 2 bulan Januari 2017. 
 5. **Weekly_price**: Harga mingguan mirip dengan harga harian, biasanya kelipatan dengan diskon atau biaya tambahan.
 
 ##### nums23
+![df23](df23.png)
 1. **Monthly_price**: Harga bulanan cenderung lebih murah per hari dibandingkan harga harian, sering kali disertai diskon.
 2. **guests_included**: Sebagian besar listing dapat menampung hingga 4 tamu, dengan beberapa yang bisa menampung lebih dari 8 orang. Listing dengan kapasitas besar cocok untuk keluarga atau kelompok besar.
 3. **minimum_nights**: Minimum menginap umumnya rendah (1-2 malam), dengan beberapa listing yang mensyaratkan durasi lebih lama untuk masa inap jangka panjang.
@@ -260,6 +269,7 @@ Untuk tahun 2017, data terakhir tahun 2017 adalah tanggal 2 bulan Januari 2017. 
 5. **review_scores_rating**: Sebagian besar listing memiliki rating tinggi (di atas 80), menunjukkan kualitas yang baik dan tamu yang puas.
 
 ##### nums24
+![df24](df24.png)
 1. **review_scores_accuracy**: Skor akurasi deskripsi umumnya tinggi (di atas 8), menunjukkan deskripsi listing yang sesuai dengan ekspektasi tamu.
 2. **review_scores_cleanliness**: Skor kebersihan mayoritas tinggi (di atas 8), menunjukkan host menjaga standar kebersihan yang baik.
 3. **review_scores_checkin**: Skor check-in umumnya tinggi, meski ada beberapa kesulitan di beberapa listing.
@@ -313,11 +323,16 @@ Korelasi positif, ketidka bulan semakin mendekati akhir tahun maka pendapatan ju
    - Ada beberapa listing yang mempunyai nilai price yang lebih tinggi dan listing-listing tersebut mengalami kenaikan customer, sedangkan listing-listing yang punya nilai price yang rendah customernya mengalami penurunan melebihi listing yang dijelaskan sebelumnya.
    - Ada beberapa customer yang menginap mingguan, sehingga mereka memilih harga weekly_price yang lebih tinggi daripada price.
    - Ada beberapa customer yang membayar biaya lain selain kelompok harga (price, weekly_price, day_price) dan hal itu melebih akumulasi nilai penurunan customer yang membayar nilai yang rendah (harga price saja di listing yang murah).
+
 ![trencust](trencust.png)
 ![trenpendapatan](trenpendapatan.png)
+
 2. Listing yang mempunyai customer yang rendah, belum tentu mempunyai pendapatan yang rendah juga. Begitupun sebaliknya. Hal ini karena didasari oleh banyak faktor, seperti kelompok harga (price, weekly_price, day_price) yang berbeda di setiap listing, akomodasi dari listing tersebut yang mungkin bisa mempengaruhi kecenderungan orang memilih listing tersebut, biaya tambahan lainnya, dan banyak hal lain. Catatan: Dua tabel dibawah masih harus dibuang outliernya. Karena dari boxplot outlier dari total pendapatan tidak ada yang dibawah q1, tetapi listing yang hanya mendapatkan satu customer ada dibawah q1 (q1 nya adalah 139) jadi untuk membuangnya akan memakai inter quartil range. Begitu juga dengan pendapatan yang q1 nya sebesar 13,7k dollar.
+
 ![top10custlow](top10custlow.png)
 ![top10pendlow](top10pendlow.png)
+
 3. Mempunyai rating score yang tinggi belum tentu mempunyai pendapatan yang tinggi juga. Seperti padagrafik dibawah adalah top 10 listing dengan rating tertinggi dan yang kedua adalah top 10 listing dengan rating terendah. Pada tabel pertama, hanya dua listing dengan rating 100 yang pendapatannya melebihi q3 total pendapatan (44,2k dollar). Sedangkan pada tabel kedua, tidak ada yang menyentuh q3 total pendapatan. Perbdedaan lain dari dua tabel tersebut adalah rating yang tinggi memeiliki kecenderungan mempunyai customer yang lebih banyak dibandingkan rating yang randah. Hal ini bisa kita simpulkan sekilas bahwa rating rendah akan mempunyai kecenderungan pendapatan dan jumlah customer yang lebih sedikit. Oleh karena itu, listing yang mempunyai rating yang rendah harus menaikkan kualitas listing mereka.
+
 ![top10ratinghigh](top10ratinghigh.png)
 ![top10ratinglow](top10ratinglow.png)
