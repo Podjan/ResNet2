@@ -336,3 +336,99 @@ Korelasi positif, ketidka bulan semakin mendekati akhir tahun maka pendapatan ju
 
 ![top10ratinghigh](top10ratinghigh.png)
 ![top10ratinglow](top10ratinglow.png)
+
+# STAGE 2 : DATA PREPROCESSING
+## Handiling Missing Value dan Data Duplicate
+1. Handling Missing Value
+   Berikut adalah list fitur dengan missing valuenya :
+    |                                  |    0 |
+    |:---------------------------------|-----:|
+    | listing_id                       |    0 |
+    | total_pendapatan                 |    0 |
+    | total_customer                   |    0 |
+    | name                             |    0 |
+    | host_id                          |    0 |
+    | host_response_time               |  480 |
+    | host_response_rate               |  480 |
+    | host_acceptance_rate             |  723 |
+    | host_is_superhost                |    2 |
+    | host_identity_verified           |    2 |
+    | zipcode                          |    7 |
+    | latitude                         |    0 |
+    | longitude                        |    0 |
+    | is_location_exact                |    0 |
+    | property_type                    |    1 |
+    | room_type                        |    0 |
+    | accommodates                     |    0 |
+    | bathrooms                        |   16 |
+    | bedrooms                         |    6 |
+    | beds                             |    1 |
+    | bed_type                         |    0 |
+    | price                            |    0 |
+    | weekly_price                     | 1750 |
+    | monthly_price                    | 2231 |
+    | guests_included                  |    0 |
+    | minimum_nights                   |    0 |
+    | maximum_nights                   |    0 |
+    | review_scores_rating             |  622 |
+    | review_scores_accuracy           |  633 |
+    | review_scores_cleanliness        |  628 |
+    | review_scores_checkin            |  633 |
+    | review_scores_communication      |  626 |
+    | review_scores_location           |  630 |
+    | review_scores_value              |  631 |
+    | instant_bookable                 |    0 |
+    | cancellation_policy              |    0 |
+    | require_guest_profile_picture    |    0 |
+    | require_guest_phone_verification |    0 |
+
+- Pada fitur weekly_price dan monthly_price missing valuenya dihandle dengan mengisinya menjadi nilai 0, sebab diasumsikan bahwa penginapan tersebut memang tidak menyediakan data weekly_price dan monthly_price.
+-  Kolom-kolom review skor (review_scores_rating, review_scores_accuracy, dll.) memiliki nilai missing yang diisi berdasarkan median dari skor-skor tersebut, dikelompokkan berdasarkan room_type.Misalnya, semua properti dengan room_type = 'Entire home/apt' akan mengisi nilai missing berdasarkan median skor review dari tipe ruangan tersebut. Pendekatan ini logis karena skor cenderung berbeda tergantung tipe ruangannya
+- Nilai missing untuk kolom host_response_rate, host_acceptance_rate, bathrooms, bedrooms, dan beds diisi dengan median dari kolom tersebut.
+- Nilai kategorikal yang memiliki missing value seperti host_response_time, host_identity_verified, host_is_superhost, property_type dihandle dengan menggunakan mode atau kategori yang paling umum
+- Untuk handling data zipcode tidak bisa dilakukan dengan mengandalkan data mean, medaian, mode saja karena datanya berkaitan erat dangan latitude dan longitude maka dari itu agar zipcode yang kosong terisi dengan nilai yang sesuai maka dibutuhkan library Reverse Geocoding
+
+Hasil setelah handling missing value 
+    |                                  |   0 |
+    |:---------------------------------|----:|
+    | listing_id                       |   0 |
+    | total_pendapatan                 |   0 |
+    | total_customer                   |   0 |
+    | name                             |   0 |
+    | host_id                          |   0 |
+    | host_response_time               |   0 |
+    | host_response_rate               |   0 |
+    | host_acceptance_rate             |   0 |
+    | host_is_superhost                |   0 |
+    | host_identity_verified           |   0 |
+    | zipcode                          |   0 |
+    | latitude                         |   0 |
+    | longitude                        |   0 |
+    | is_location_exact                |   0 |
+    | property_type                    |   0 |
+    | room_type                        |   0 |
+    | accommodates                     |   0 |
+    | bathrooms                        |   0 |
+    | bedrooms                         |   0 |
+    | beds                             |   0 |
+    | bed_type                         |   0 |
+    | price                            |   0 |
+    | weekly_price                     |   0 |
+    | monthly_price                    |   0 |
+    | guests_included                  |   0 |
+    | minimum_nights                   |   0 |
+    | maximum_nights                   |   0 |
+    | review_scores_rating             |   0 |
+    | review_scores_accuracy           |   0 |
+    | review_scores_cleanliness        |   0 |
+    | review_scores_checkin            |   0 |
+    | review_scores_communication      |   0 |
+    | review_scores_location           |   0 |
+    | review_scores_value              |   0 |
+    | instant_bookable                 |   0 |
+    | cancellation_policy              |   0 |
+    | require_guest_profile_picture    |   0 |
+    | require_guest_phone_verification |   0 |
+
+
+2. Tidak ditemukan data duplicate pada data df2 
