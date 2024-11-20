@@ -432,3 +432,21 @@ Hasil setelah handling missing value
 
 
 2. Tidak ditemukan data duplicate pada data df2 
+
+## Handling Outlier dan Feature Transformation
+Kedua hal ini berkaitan satu sama lain. Jika kita lihat melalui boxplot, kolom-kolom tipe integer dan float masih banyak terdapat outlier.
+![boxplot_ho1](boxplot_ho1.png)
+![boxplot_ho2](boxplot_ho2.png)
+Oleh sebab itu kita harus kurangi outliernya. Stepnya adalah
+1. Kolom 'review_scores_accuracy', 'review_scores_cleanliness', 'review_scores_checkin', 'review_scores_communication', 'review_scores_location', 'review_scores_value' tidak di standardisasi karena walau bentuknya numerik, tapi sudah dalam skala 1-10.
+2. Tiga kolom (host_response_rate, host_acceptance_rate, dan review_scores_rating) yang memiliki rentang nilai 0-100 menjadi kategori berdasarkan rentang yang telah ditentukan:
+   - 0-30: Sangat Buruk
+   - 31-60: Buruk
+   - 61-80: Sedang
+   - 81-90: Baik
+   - 91-100: Sangat Baik
+3. Kita bikin log untuk kolom total_pendapatan, accommodates, bathrooms, bedrooms, beds, price, weekly_price, monthly_price, guests_included, minimum_nights, maximum_nights.
+
+Hasilnya akan seperti ini
+![boxplot_ho3](boxplot_ho3.png)
+![boxplot_ho4](boxplot_ho4.png)
