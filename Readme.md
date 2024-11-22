@@ -450,3 +450,24 @@ Oleh sebab itu kita harus kurangi outliernya. Stepnya adalah
 Hasilnya akan seperti ini
 ![boxplot_ho3](boxplot_ho3.png)
 ![boxplot_ho4](boxplot_ho4.png)
+
+## Feature Encoding
+Pada tahap ini, mengubah data kategorikal menjadi bentuk numerik agar dapat digunakan oleh model machine learning. Ada dua teknik utama yang digunakan:
+
+**One-Hot Encoding**:
+
+1. Digunakan untuk kolom kategorikal nominal, di mana tidak ada urutan atau tingkatan antar kategori. Contohnya: host_response_time, property_type, room_type.
+2. Setiap nilai unik pada kolom tersebut diubah menjadi kolom baru (dummy variable) dengan nilai 0 atau 1.
+3. drop_first=True digunakan untuk menghindari multicollinearity dengan menghapus salah satu kolom dummy.
+
+**Label Encoding**:
+
+1. Digunakan untuk kolom kategorikal ordinal, di mana ada urutan atau tingkatan antar kategori. Contohnya: review_scores_rating_kategori (Sangat Buruk, Buruk, Sedang, Baik, Sangat Baik).
+2. Setiap nilai unik diubah menjadi angka urut.
+3. Contoh: 'Sangat Buruk' menjadi 0, 'Buruk' menjadi 1, dan seterusnya.
+
+**Kolom yang Diencode**:
+
+**One-Hot Encoding**: ```host_response_time, host_is_superhost, host_identity_verified, is_location_exact, property_type, room_type, bed_type, instant_bookable, cancellation_policy, require_guest_profile_picture, require_guest_phone_verification.```
+
+**Label Encoding**: ```review_scores_rating_kategori, host_response_rate_kategori, host_acceptance_rate_kategori.```
