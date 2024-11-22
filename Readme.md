@@ -473,5 +473,17 @@ Pada tahap ini, mengubah data kategorikal menjadi bentuk numerik agar dapat digu
 **Label Encoding**: ```review_scores_rating_kategori, host_response_rate_kategori, host_acceptance_rate_kategori.```
 
 ## Feature Selection
-Pada tahap ini kami melakukan analisis mengenai kolom mana saja yang harus dibuang agar menghindari multikolinearitas.
+Pada tahap ini, kami melakukan analisis untuk memilih kolom-kolom yang relevan dan membuang kolom yang dapat menyebabkan masalah multikolinearitas. Salah satu metode yang digunakan untuk menganalisis hubungan antar fitur adalah dengan menggunakan heatmap. Heatmap berikut menunjukkan korelasi antar fitur dalam dataset:
 ![alt text](https://github.com/Podjan/ResNet2/blob/main/Feature%20heatmap.png?raw=true)
+
+Pada gambar heatmap terdapat satu korelasi yang melebihi 0.80, korelasi tersebut antara kolom accomodate_log dengan beds_log. Ini menunjukkan adanya hubungan linier yang kuat antara kedua fitur tersebut. Dalam kasus seperti ini, biasanya perlu memilih salah satu fitur untuk di-drop dan kami memilih accomodate_log di drop dikarenakan untuk kolom beds_log akan kami gunakan untuk membuat feature baru. Alasan kami nge-drop karena korelasi tinggi (≥0.8) antara dua fitur menunjukkan redundansi informasi, sehingga salah satunya perlu dihapus untuk menghindari multikolinearitas. Multikolinearitas dapat memengaruhi stabilitas model dan membuat estimasi koefisien pada model regresi menjadi tidak dapat diandalkan.
+
+## Feature Extraction
+Pada tahap Feature Extraction, kami fokus pada pembuatan fitur baru yang dapat meningkatkan kinerja model dan memberikan wawasan lebih dalam terhadap data. Fitur baru ini dibangun dengan menggunakan transformasi logaritma dan kombinasi beberapa fitur yang ada, dengan tujuan untuk memperbaiki representasi data yang lebih informatif. Berikut adalah beberapa fitur baru yang telah kami buat:
+
+1. price_per_bed: Mengukur harga per tempat tidur.
+2. revenue_per_bedrooms: Mengukur pendapatan per kamar tidur.
+3. room_bath_ratio: Mengukur rasio kamar tidur terhadap kamar mandi.
+4. revenue_per_bathrooms: Mengukur pendapatan per kamar mandi.
+
+Dengan menciptakan fitur-fitur baru ini, kami berharap dapat memperoleh model yang lebih baik dalam memprediksi harga atau pendapatan properti berdasarkan fasilitas yang ada.
