@@ -471,3 +471,7 @@ Pada tahap ini, mengubah data kategorikal menjadi bentuk numerik agar dapat digu
 **One-Hot Encoding**: ```host_response_time, host_is_superhost, host_identity_verified, is_location_exact, property_type, room_type, bed_type, instant_bookable, cancellation_policy, require_guest_profile_picture, require_guest_phone_verification.```
 
 **Label Encoding**: ```review_scores_rating_kategori, host_response_rate_kategori, host_acceptance_rate_kategori.```
+
+## Feature Selection
+Pada tahap ini kami melakukan analisis mengenai kolom mana saja yang harus dibuang agar menghindari multikolinearitas.
+![alt text](https://github.com/Podjan/ResNet2/blob/main/Feature%20heatmap.png?raw=true)
