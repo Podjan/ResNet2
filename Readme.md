@@ -23,6 +23,15 @@ Dalam final project ini, kelompok kami ingin membuat machine learning yang bertu
 ## Flow
 ![drawioflow](drawioflow.png)
 
+## Library dan Version
+- Numpy: 1.26.4
+- Pandas: 2.2.2
+- Matplotlib.pyplot: 3.8.4
+- Seaborn: 0.13.2
+- Geopy: 2.4.1
+- Scikit-learn: 1.4.2
+- Math: 3.12.4 
+
 ## Penjelasan Sebelum EDA
 ### Dataset
 Ada tiga dataset pada pekerjaan kali ini. 
@@ -82,7 +91,7 @@ Goals yang ingin dicapai dalam studi case ini adalah meningkatkan jumlah custome
    df2 = dfl3
    ```
 
-### Fitur yang akan digunakan
+### Dataset yang akan digunakan
 #### df1 (dataset calendar final)
 - listing_id
 - date
@@ -338,6 +347,12 @@ Korelasi positif, ketidka bulan semakin mendekati akhir tahun maka pendapatan ju
 ![top10ratinglow](top10ratinglow.png)
 
 # STAGE 2 : DATA PREPROCESSING
+Dataset df2 akan digunakan sebagai dataset final. Karena kami akan memprediksi pendapatan dan jumlah customer yang akan diterima oleh listing tahun depan, maka fitur target adalah total_pendapatan dan total_customer.
+
+Saat ini, kita masih berada di tahap research, data preparation.
+
+![drawioflow](drawioflow.png)
+
 ## Handiling Missing Value dan Data Duplicate
 1. Handling Missing Value
    Berikut adalah list fitur dengan missing valuenya :
@@ -388,47 +403,48 @@ Korelasi positif, ketidka bulan semakin mendekati akhir tahun maka pendapatan ju
 - Nilai kategorikal yang memiliki missing value seperti host_response_time, host_identity_verified, host_is_superhost, property_type dihandle dengan menggunakan mode atau kategori yang paling umum
 - Untuk handling data zipcode tidak bisa dilakukan dengan mengandalkan data mean, medaian, mode saja karena datanya berkaitan erat dangan latitude dan longitude maka dari itu agar zipcode yang kosong terisi dengan nilai yang sesuai maka dibutuhkan library Reverse Geocoding
 
-Hasil setelah handling missing value 
-    |                                  |   0 |
-    |:---------------------------------|----:|
-    | listing_id                       |   0 |
-    | total_pendapatan                 |   0 |
-    | total_customer                   |   0 |
-    | name                             |   0 |
-    | host_id                          |   0 |
-    | host_response_time               |   0 |
-    | host_response_rate               |   0 |
-    | host_acceptance_rate             |   0 |
-    | host_is_superhost                |   0 |
-    | host_identity_verified           |   0 |
-    | zipcode                          |   0 |
-    | latitude                         |   0 |
-    | longitude                        |   0 |
-    | is_location_exact                |   0 |
-    | property_type                    |   0 |
-    | room_type                        |   0 |
-    | accommodates                     |   0 |
-    | bathrooms                        |   0 |
-    | bedrooms                         |   0 |
-    | beds                             |   0 |
-    | bed_type                         |   0 |
-    | price                            |   0 |
-    | weekly_price                     |   0 |
-    | monthly_price                    |   0 |
-    | guests_included                  |   0 |
-    | minimum_nights                   |   0 |
-    | maximum_nights                   |   0 |
-    | review_scores_rating             |   0 |
-    | review_scores_accuracy           |   0 |
-    | review_scores_cleanliness        |   0 |
-    | review_scores_checkin            |   0 |
-    | review_scores_communication      |   0 |
-    | review_scores_location           |   0 |
-    | review_scores_value              |   0 |
-    | instant_bookable                 |   0 |
-    | cancellation_policy              |   0 |
-    | require_guest_profile_picture    |   0 |
-    | require_guest_phone_verification |   0 |
+Hasil setelah handling missing value
+
+ | Column                               | Missing Values |
+|--------------------------------------|----------------|
+| listing_id                           | 0              |
+| total_pendapatan                     | 0              |
+| total_customer                       | 0              |
+| name                                 | 0              |
+| host_id                              | 0              |
+| host_response_time                   | 0              |
+| host_response_rate                   | 0              |
+| host_acceptance_rate                 | 0              |
+| host_is_superhost                    | 0              |
+| host_identity_verified               | 0              |
+| zipcode                              | 0              |
+| latitude                             | 0              |
+| longitude                            | 0              |
+| is_location_exact                    | 0              |
+| property_type                        | 0              |
+| room_type                            | 0              |
+| accommodates                         | 0              |
+| bathrooms                            | 0              |
+| bedrooms                             | 0              |
+| beds                                 | 0              |
+| bed_type                             | 0              |
+| price                                | 0              |
+| weekly_price                         | 0              |
+| monthly_price                        | 0              |
+| guests_included                      | 0              |
+| minimum_nights                       | 0              |
+| maximum_nights                       | 0              |
+| review_scores_rating                 | 0              |
+| review_scores_accuracy               | 0              |
+| review_scores_cleanliness            | 0              |
+| review_scores_checkin                | 0              |
+| review_scores_communication          | 0              |
+| review_scores_location               | 0              |
+| review_scores_value                  | 0              |
+| instant_bookable                     | 0              |
+| cancellation_policy                  | 0              |
+| require_guest_profile_picture        | 0              |
+| require_guest_phone_verification     | 0              |
 
 
 2. Tidak ditemukan data duplicate pada data df2 
@@ -446,6 +462,7 @@ Oleh sebab itu kita harus kurangi outliernya. Stepnya adalah
    - 81-90: Baik
    - 91-100: Sangat Baik
 3. Kita bikin log untuk kolom total_pendapatan, accommodates, bathrooms, bedrooms, beds, price, weekly_price, monthly_price, guests_included, minimum_nights, maximum_nights.
+4. Karena kita mau prediksi untuk semua listing, maka tidak ada row yang kita hilangkan, oleh karena itu outlier juga tidak hilang.
 
 Hasilnya akan seperti ini
 ![boxplot_ho3](boxplot_ho3.png)
@@ -487,3 +504,71 @@ Pada tahap Feature Extraction, kami fokus pada pembuatan fitur baru yang dapat m
 4. revenue_per_bathrooms: Mengukur pendapatan per kamar mandi.
 
 Dengan menciptakan fitur-fitur baru ini, kami berharap dapat memperoleh model yang lebih baik dalam memprediksi harga atau pendapatan properti berdasarkan fasilitas yang ada.
+
+Fitur final yang akan dipakai:
+note: listing_id tidak digunakan dalam regresi. Targetnya adalah total_customer dan total_pendapatan_log
+
+
+| #   | Column                                 | Count | Non-Null | Dtype    |
+| --- | -------------------------------------- | ----- | --------------- | -------- |
+| 0   | listing_id                             | 3723  | non-null        | int64    |
+| 1   | total_customer                         | 3723  | non-null        | int64    |
+| 2   | host_id                                | 3723  | non-null        | object   |
+| 3   | zipcode                                | 3723  | non-null        | object   |
+| 4   | latitude                               | 3723  | non-null        | object   |
+| 5   | longitude                              | 3723  | non-null        | object   |
+| 6   | review_scores_accuracy                 | 3723  | non-null        | float64  |
+| 7   | review_scores_cleanliness              | 3723  | non-null        | float64  |
+| 8   | review_scores_checkin                  | 3723  | non-null        | float64  |
+| 9   | review_scores_communication            | 3723  | non-null        | float64  |
+| 10  | review_scores_location                 | 3723  | non-null        | float64  |
+| 11  | review_scores_value                    | 3723  | non-null        | float64  |
+| 12  | review_scores_rating_kategori          | 3723  | non-null        | int32    |
+| 13  | host_response_rate_kategori            | 3723  | non-null        | int32    |
+| 14  | host_acceptance_rate_kategori          | 3723  | non-null        | int32    |
+| 15  | total_pendapatan_log                   | 3723  | non-null        | float64  |
+| 16  | bathrooms_log                          | 3723  | non-null        | float64  |
+| 17  | bedrooms_log                           | 3723  | non-null        | float64  |
+| 18  | beds_log                               | 3723  | non-null        | float64  |
+| 19  | price_log                              | 3723  | non-null        | float64  |
+| 20  | weekly_price_log                       | 3723  | non-null        | float64  |
+| 21  | monthly_price_log                      | 3723  | non-null        | float64  |
+| 22  | guests_included_log                    | 3723  | non-null        | float64  |
+| 23  | minimum_nights_log                     | 3723  | non-null        | float64  |
+| 24  | maximum_nights_log                     | 3723  | non-null        | float64  |
+| 25  | host_response_time_within a day        | 3723  | non-null        | bool     |
+| 26  | host_response_time_within a few hours  | 3723  | non-null        | bool     |
+| 27  | host_response_time_within an hour      | 3723  | non-null        | bool     |
+| 28  | host_is_superhost_t                    | 3723  | non-null        | bool     |
+| 29  | host_identity_verified_t               | 3723  | non-null        | bool     |
+| 30  | is_location_exact_t                    | 3723  | non-null        | bool     |
+| 31  | property_type_Bed & Breakfast          | 3723  | non-null        | bool     |
+| 32  | property_type_Boat                     | 3723  | non-null        | bool     |
+| 33  | property_type_Bungalow                 | 3723  | non-null        | bool     |
+| 34  | property_type_Cabin                    | 3723  | non-null        | bool     |
+| 35  | property_type_Camper/RV                | 3723  | non-null        | bool     |
+| 36  | property_type_Chalet                   | 3723  | non-null        | bool     |
+| 37  | property_type_Condominium              | 3723  | non-null        | bool     |
+| 38  | property_type_Dorm                     | 3723  | non-null        | bool     |
+| 39  | property_type_House                    | 3723  | non-null        | bool     |
+| 40  | property_type_Loft                     | 3723  | non-null        | bool     |
+| 41  | property_type_Other                    | 3723  | non-null        | bool     |
+| 42  | property_type_Tent                     | 3723  | non-null        | bool     |
+| 43  | property_type_Townhouse                | 3723  | non-null        | bool     |
+| 44  | property_type_Treehouse                | 3723  | non-null        | bool     |
+| 45  | property_type_Yurt                     | 3723  | non-null        | bool     |
+| 46  | room_type_Private room                 | 3723  | non-null        | bool     |
+| 47  | room_type_Shared room                  | 3723  | non-null        | bool     |
+| 48  | bed_type_Couch                         | 3723  | non-null        | bool     |
+| 49  | bed_type_Futon                         | 3723  | non-null        | bool     |
+| 50  | bed_type_Pull-out Sofa                 | 3723  | non-null        | bool     |
+| 51  | bed_type_Real Bed                      | 3723  | non-null        | bool     |
+| 52  | instant_bookable_t                     | 3723  | non-null        | bool     |
+| 53  | cancellation_policy_moderate           | 3723  | non-null        | bool     |
+| 54  | cancellation_policy_strict             | 3723  | non-null        | bool     |
+| 55  | require_guest_profile_picture_t        | 3723  | non-null        | bool     |
+| 56  | require_guest_phone_verification_t     | 3723  | non-null        | bool     |
+| 57  | price_per_bed                          | 3723  | non-null        | float64  |
+| 58  | revenue_per_bedrooms                   | 3723  | non-null        | float64  |
+| 59  | room_bath_ratio                        | 3723  | non-null        | float64  |
+| 60  | revenue_per_bathrooms                  | 3723  | non-null        | float64  |
