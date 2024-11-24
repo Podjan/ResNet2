@@ -10,18 +10,20 @@ Dalam final project ini, kelompok kami ingin membuat machine learning yang bertu
 ## Daftar Isi
 - [Prerequisites](#prerequisites)
 - [Flow](#flow)
-- [Penjelasan Sebelum EDA](#penjelasan-sebelum-eda)
-- [EDA](#eda)
-- [Business Insight](#business-insight)
+- [Library dan Version](#library-dan-version)
+- [Stage 0](#stage-0)
+- [Stage 1](#stage-1)
+- [Stage 2](#stage-2)
 
 ## Prerequisites
 1. Download data [here](https://drive.google.com/drive/folders/1q0uoNhUzHYL3TmhfwtFL-Xnb26rwOzRF?usp=sharing)
 2. Clone repositori ini:
    ```bash
    git clone https://github.com/Podjan/ResNet2.git
+3. Folder images berisi tentang gambar sepeti grafik dan tabel yang digunakan pada penelitian ini.
 
 ## Flow
-![drawioflow](drawioflow.png)
+![drawioflow](images/drawioflow.png)
 
 ## Library dan Version
 - Numpy: 1.26.4
@@ -32,7 +34,27 @@ Dalam final project ini, kelompok kami ingin membuat machine learning yang bertu
 - Scikit-learn: 1.4.2
 - Math: 3.12.4 
 
-## Penjelasan Sebelum EDA
+## Stage 0
+![drawioflowstage0](images/drawioflowstage0.png)
+### Overview
+Data berisi tempat penyewaan properti Airbnb di kota seattle beberapa tahun terakhir. Data terdiri dari reviews, kalender, dan propertinya.
+
+### Problem
+Airbnb merasa persaingan di dunia travel semakin meningkat terutama di daerah seattle. Oleh karena itu Airbnb merasa perlu menguasai pasar perhotelan di Seattle dengan menambah jumlah customer di Seattle. Airbnb menyadari bahwa diperlukan upaya strategis untuk memperkuat posisinya di pasar perhotelan di Seattle. Meningkatnya jumlah hotel dan penyedia akomodasi lainnya, baik yang berskala besar maupun kecil, menyebabkan Airbnb merasa harus melakukan tindakan proaktif untuk memenangkan pasar di tahun berikutnya.
+
+### Goal
+Goals yang ingin dicapai dalam studi case ini adalah meningkatkan jumlah customer AirBnB di tahun berikutnya dengan memberikan wawasan yang akurat kepada pemilik AirBNB mengenai jenis properti yang paling diminati oleh tamu dan tingkat kepuasan para tamu, sehingga mereka dapat mengoptimalkan strategi pemasaran, penetapan harga, dan pengelolaan inventaris di tahun berikutnya.
+
+### Objectives
+1. Memprediksi jumlah pengunjung di tahun berikutnya berdasarkan kualitas dan harga.
+2. Meningkatkan tingkat kepuasan customer terhadap kualitas hotel yang pengunjungnya sepi.
+3. Memprediksi harga hotel di tahun depan untuk memberikan rekomendasi harga yang tepat di setiap hotel.
+
+### Business Metric
+![businessmetric](images/businessmetric.png)
+
+## Stage 1
+![drawioflowstage1](images/drawioflowstage1.png)
 ### Dataset
 Ada tiga dataset pada pekerjaan kali ini. 
 1. **Calendar** yang berisi tentang data penghasilan dari AirBnB selama setahun.
@@ -43,14 +65,6 @@ Ada tiga dataset pada pekerjaan kali ini.
 1. Penentuan kolom dan dataset yang diambil dilakukan diawal untuk meminimalisir resiko dan membuang yang tidak perlu.
 2. Poin pertama bukan berarti selanjutnya tidak ada pengambilan keputusan untuk membuang kolom. Jika ada kolom yang korelasinya mendekati 1 kemungkinan akan dibuang juga.
 3. Penentuan kolom dan dataset diawal juga didasari oleh goal dan objective yang ingin dicapai.
-
-### Goal dan Objectives
-#### Goal
-Goals yang ingin dicapai dalam studi case ini adalah meningkatkan jumlah customer AirBnB di tahun berikutnya dengan memberikan wawasan yang akurat kepada pemilik AirBNB mengenai jenis properti yang paling diminati oleh tamu dan tingkat kepuasan para tamu, sehingga mereka dapat mengoptimalkan strategi pemasaran, penetapan harga, dan pengelolaan inventaris di tahun berikutnya.
-#### Objectives
-1. Memprediksi jumlah pengunjung di tahun berikutnya berdasarkan kualitas dan harga.
-2. Meningkatkan tingkat kepuasan customer terhadap kualitas hotel yang pengunjungnya sepi.
-3. Memprediksi harga hotel di tahun depan untuk memberikan rekomendasi harga yang tepat di setiap hotel.
 
 ### Langkah awal
 1. Memisahkan kolom date menjadi kolom bulan dan tahun pada dataset calendar
@@ -139,8 +153,8 @@ Goals yang ingin dicapai dalam studi case ini adalah meningkatkan jumlah custome
 - require_guest_phone_verification
 #### Note: Untuk dataset review, dataset tersebut tidak kami masukkan sebagai model utama machine learning. Tetapi data itu akan kami gunakan sebagai model untuk melihat sentimen customer dari masing-masing listing. Kami menggunakan geminiAI untuk mengerjakan model tersebut. Untuk saat ini, codingnya ada di repository ini dengan nama API.ipynb.
 
-## EDA
-### Descriptive Statistic
+### EDA
+#### Descriptive Statistic
 Pada proses descriptive statistic ini, berguna untuk melihat nilai statistika dari setiap data yang sudah diolah sebelumnya. Pada bagian ini descriptive statistic menampilkan 2 data frame yang berguna untuk mempertimbangkan analisis selanjutnya.
 #### df1
 df1 merupakan data frame yang data sourcenya diambil dari dataset calendar. Sebelum dilakukan data cleansing terdapat sekitar 1.393.570 rows yang kemudian diolah dengan membuang missing valuenya sehingga feature payment yang awalnya 459028 didrop semua menjadi 0.
@@ -243,7 +257,7 @@ Dari data tersebut tidak menunjukkan adanya data yang invalid. Selain itu, beber
 ### Univariate Analysis
 Pada analisis univariate, untuk df2, kami mengelompokkan kolom yang bertipe float dan integer ke kolom bernama nums (numerical). Karena ada 21, kami membagi nums tersebut menjadi 5, yaitu nums21,nums22, nums23, nums 24, dan nums25. Tujuannya, agar tidak memberatkan pc saat melakukan run codingnya.
 #### df1
-![df1](df1.png)
+![df1](images/df1.png)
 1. **Listing ID**:
 Rentang nilai Listing ID sangat lebar. Tidak ada outlier yang signifikan.
 2. **Date**: Distribusi data sangat merata di sekitar bulan 4-10.
@@ -253,16 +267,16 @@ Rentang nilai Listing ID sangat lebar. Tidak ada outlier yang signifikan.
 Untuk tahun 2017, data terakhir tahun 2017 adalah tanggal 2 bulan Januari 2017. Untuk date pertama di tanggal 4 bulan Januari 2016
 
 #### df2
-##### nums21
-![df21](df21.png)
+#### nums21
+![df21](images/df21.png)
 1. **total_pendapatan**: Distribusi pendapatan semua listing terpusat di sekitar 250k, dengan outlier mulai di atas 100k
 2. **total_customer**: Distribusi terpusat di sekitar angka 300, menunjukkan total customer yang konsisten antar data. Kemungkinan mewakili jumlah ulasan atau interaksi, dengan nilai tinggi mengindikasikan listing yang populer.
 3. **host_response_rate**: Banyak host dengan tingkat respons tinggi, tetapi ada juga yang sangat rendah. Hal ini menunjukkan bahwa responsivitas host cukup beragam, dengan yang cepat lebih disukai tamu.
 4. **host_acceptance_rate**: Mayoritas host memiliki tingkat penerimaan mendekati 100%, tetapi ada juga yang lebih selektif. Host dengan penerimaan tinggi cenderung populer atau memiliki kebijakan khusus.
 5. **accommodates**: Sebagian besar listing menampung hingga 4 orang, dengan beberapa outlier yang menampung lebih banyak. Kapasitas akomodasi beragam, dari 1-2 hingga lebih dari 8 orang.
 
-##### nums22
-![df22](df22.png)
+#### nums22
+![df22](images/df22.png)
 1. **bathrooms**: Sebagian besar listing memiliki 1-2 kamar mandi, dengan beberapa outlier yang memiliki lebih banyak. Fasilitas kamar mandi bervariasi, meski mayoritas terbatas.
 2. **Bedrooms**: Sebagian besar listing memiliki 1-2 kamar tidur, cocok untuk individu atau keluarga kecil. Listing dengan lebih banyak kamar tidur biasanya untuk kelompok besar atau masa inap lebih lama.
 3. **Beds**: Umumnya ada 2-4 tempat tidur per listing, dengan beberapa memiliki lebih banyak. Beberapa listing menawarkan tempat tidur tambahan, seperti sofa bed.
@@ -270,15 +284,15 @@ Untuk tahun 2017, data terakhir tahun 2017 adalah tanggal 2 bulan Januari 2017. 
 5. **Weekly_price**: Harga mingguan mirip dengan harga harian, biasanya kelipatan dengan diskon atau biaya tambahan.
 
 ##### nums23
-![df23](df23.png)
+![df23](images/df23.png)
 1. **Monthly_price**: Harga bulanan cenderung lebih murah per hari dibandingkan harga harian, sering kali disertai diskon.
 2. **guests_included**: Sebagian besar listing dapat menampung hingga 4 tamu, dengan beberapa yang bisa menampung lebih dari 8 orang. Listing dengan kapasitas besar cocok untuk keluarga atau kelompok besar.
 3. **minimum_nights**: Minimum menginap umumnya rendah (1-2 malam), dengan beberapa listing yang mensyaratkan durasi lebih lama untuk masa inap jangka panjang.
 4. **maximum_nights**: Mayoritas listing memiliki batas maksimum menginap yang fleksibel atau tanpa batas, namun ada beberapa yang membatasi masa inap lebih pendek.
 5. **review_scores_rating**: Sebagian besar listing memiliki rating tinggi (di atas 80), menunjukkan kualitas yang baik dan tamu yang puas.
 
-##### nums24
-![df24](df24.png)
+#### nums24
+![df24](images/df24.png)
 1. **review_scores_accuracy**: Skor akurasi deskripsi umumnya tinggi (di atas 8), menunjukkan deskripsi listing yang sesuai dengan ekspektasi tamu.
 2. **review_scores_cleanliness**: Skor kebersihan mayoritas tinggi (di atas 8), menunjukkan host menjaga standar kebersihan yang baik.
 3. **review_scores_checkin**: Skor check-in umumnya tinggi, meski ada beberapa kesulitan di beberapa listing.
@@ -289,7 +303,7 @@ Untuk tahun 2017, data terakhir tahun 2017 adalah tanggal 2 bulan Januari 2017. 
 ### Multivariate Analysis
 #### df1
 **Heatmap df1**
-![heatmapdf1](heatmapdf1.png)
+![heatmapdf1](images/heatmapdf1.png)
 Heatmap ini menunjukkan matriks korelasi antar variabel dalam dataset, yaitu bulan_num, pendapatan, dan tahun. Berikut penjelasan dari korelasi antar variabel:
 1. tahun dengan bulan_num (-0.13):
 Korelasi negatif lemah, yang menunjukkan bahwa ketika tahun meningkat, bulan_num cenderung sedikit menurun. Namun, hubungan ini tidak terlalu kuat, sehingga tidak ada keterkaitan yang jelas antara tahun dan bulan_num.
@@ -301,7 +315,7 @@ Korelasi positif, ketidka bulan semakin mendekati akhir tahun maka pendapatan ju
 
 #### df2
 **Heatmap df2**
-![heatmapdf2](heatmapdf2.png)
+![heatmapdf2](images/heatmapdf2.png)
 1. Korelasi Antar Variabel Fasilitas Properti
    - **(accommodates, bathrooms, bedrooms, dan beds)**:
      Terdapat korelasi yang cukup tinggi di antara variabel ini. Contohnya:
@@ -327,33 +341,33 @@ Korelasi positif, ketidka bulan semakin mendekati akhir tahun maka pendapatan ju
 5. Korelasi Total Pendapatan dengan Harga
    Total Pendapatan dengan kelompok harga (price, weekly_price, monthly_price) memiliki korelasi yang tinggi (0.75,0.74,0.73). Hal ini menunjukkan kelompok harga mempengaruhi pendapatan, ketika harga dinaikkan maka pendapatan akan naik.
 
-## Business Insight
+### Business Insight
 1. Jika kita melihat dua grafik dibawah, walaupun tren jumlah customer dan total pendapatan naik, tetapi di bulan Juni, terjadi keanehan antara dua tren tersebut, dimana jumlah customernya turun tetapi total pendapatannya naik. Kemungkinannya:
    - Ada beberapa listing yang mempunyai nilai price yang lebih tinggi dan listing-listing tersebut mengalami kenaikan customer, sedangkan listing-listing yang punya nilai price yang rendah customernya mengalami penurunan melebihi listing yang dijelaskan sebelumnya.
    - Ada beberapa customer yang menginap mingguan, sehingga mereka memilih harga weekly_price yang lebih tinggi daripada price.
    - Ada beberapa customer yang membayar biaya lain selain kelompok harga (price, weekly_price, day_price) dan hal itu melebih akumulasi nilai penurunan customer yang membayar nilai yang rendah (harga price saja di listing yang murah).
 
-![trencust](trencust.png)
-![trenpendapatan](trenpendapatan.png)
+![trencust](images/trencust.png)
+![trenpendapatan](images/trenpendapatan.png)
 
 2. Listing yang mempunyai customer yang rendah, belum tentu mempunyai pendapatan yang rendah juga. Begitupun sebaliknya. Hal ini karena didasari oleh banyak faktor, seperti kelompok harga (price, weekly_price, day_price) yang berbeda di setiap listing, akomodasi dari listing tersebut yang mungkin bisa mempengaruhi kecenderungan orang memilih listing tersebut, biaya tambahan lainnya, dan banyak hal lain. Catatan: Dua tabel dibawah masih harus dibuang outliernya. Karena dari boxplot outlier dari total pendapatan tidak ada yang dibawah q1, tetapi listing yang hanya mendapatkan satu customer ada dibawah q1 (q1 nya adalah 139) jadi untuk membuangnya akan memakai inter quartil range. Begitu juga dengan pendapatan yang q1 nya sebesar 13,7k dollar.
 
-![top10custlow](top10custlow.png)
-![top10pendlow](top10pendlow.png)
+![top10custlow](images/top10custlow.png)
+![top10pendlow](images/top10pendlow.png)
 
 3. Mempunyai rating score yang tinggi belum tentu mempunyai pendapatan yang tinggi juga. Seperti padagrafik dibawah adalah top 10 listing dengan rating tertinggi dan yang kedua adalah top 10 listing dengan rating terendah. Pada tabel pertama, hanya dua listing dengan rating 100 yang pendapatannya melebihi q3 total pendapatan (44,2k dollar). Sedangkan pada tabel kedua, tidak ada yang menyentuh q3 total pendapatan. Perbdedaan lain dari dua tabel tersebut adalah rating yang tinggi memeiliki kecenderungan mempunyai customer yang lebih banyak dibandingkan rating yang randah. Hal ini bisa kita simpulkan sekilas bahwa rating rendah akan mempunyai kecenderungan pendapatan dan jumlah customer yang lebih sedikit. Oleh karena itu, listing yang mempunyai rating yang rendah harus menaikkan kualitas listing mereka.
 
-![top10ratinghigh](top10ratinghigh.png)
-![top10ratinglow](top10ratinglow.png)
+![top10ratinghigh](images/top10ratinghigh.png)
+![top10ratinglow](images/top10ratinglow.png)
 
-# STAGE 2 : DATA PREPROCESSING
-Dataset df2 akan digunakan sebagai dataset final. Karena kami akan memprediksi pendapatan dan jumlah customer yang akan diterima oleh listing tahun depan, maka fitur target adalah total_pendapatan dan total_customer.
+## STAGE 2 : DATA PREPROCESSING
+Dataset df2 akan digunakan sebagai dataset final. Karena kami akan memprediksi pendapatan dan jumlah customer yang akan diterima oleh listing tahun depan, maka fitur target adalah total_pendapatan dan total_customer. Df1 dan df3 digunakan jika ingin melakukan penelitian lebih lanjut
 
 Saat ini, kita masih berada di tahap research, data preparation.
 
-![drawioflow](drawioflow.png)
+![drawioflowstage2](images/drawioflowstage2.png)
 
-## Handiling Missing Value dan Data Duplicate
+### Handiling Missing Value dan Data Duplicate
 1. Handling Missing Value
    Berikut adalah list fitur dengan missing valuenya :
     |                                  |    0 |
@@ -449,10 +463,10 @@ Hasil setelah handling missing value
 
 2. Tidak ditemukan data duplicate pada data df2 
 
-## Handling Outlier dan Feature Transformation
+### Handling Outlier dan Feature Transformation
 Kedua hal ini berkaitan satu sama lain. Jika kita lihat melalui boxplot, kolom-kolom tipe integer dan float masih banyak terdapat outlier.
-![boxplot_ho1](boxplot_ho1.png)
-![boxplot_ho2](boxplot_ho2.png)
+![boxplot_ho1](images/boxplot_ho1.png)
+![boxplot_ho2](images/boxplot_ho2.png)
 Oleh sebab itu kita harus kurangi outliernya. Stepnya adalah
 1. Kolom 'review_scores_accuracy', 'review_scores_cleanliness', 'review_scores_checkin', 'review_scores_communication', 'review_scores_location', 'review_scores_value' tidak di standardisasi karena walau bentuknya numerik, tapi sudah dalam skala 1-10.
 2. Tiga kolom (host_response_rate, host_acceptance_rate, dan review_scores_rating) yang memiliki rentang nilai 0-100 menjadi kategori berdasarkan rentang yang telah ditentukan:
@@ -465,10 +479,10 @@ Oleh sebab itu kita harus kurangi outliernya. Stepnya adalah
 4. Karena kita mau prediksi untuk semua listing, maka tidak ada row yang kita hilangkan, oleh karena itu outlier juga tidak hilang.
 
 Hasilnya akan seperti ini
-![boxplot_ho3](boxplot_ho3.png)
-![boxplot_ho4](boxplot_ho4.png)
+![boxplot_ho3](images/boxplot_ho3.png)
+![boxplot_ho4](images/boxplot_ho4.png)
 
-## Feature Encoding
+### Feature Encoding
 Pada tahap ini, mengubah data kategorikal menjadi bentuk numerik agar dapat digunakan oleh model machine learning. Ada dua teknik utama yang digunakan:
 
 **One-Hot Encoding**:
@@ -489,13 +503,13 @@ Pada tahap ini, mengubah data kategorikal menjadi bentuk numerik agar dapat digu
 
 **Label Encoding**: ```review_scores_rating_kategori, host_response_rate_kategori, host_acceptance_rate_kategori.```
 
-## Feature Selection
+### Feature Selection
 Pada tahap ini, kami melakukan analisis untuk memilih kolom-kolom yang relevan dan membuang kolom yang dapat menyebabkan masalah multikolinearitas. Salah satu metode yang digunakan untuk menganalisis hubungan antar fitur adalah dengan menggunakan heatmap. Heatmap berikut menunjukkan korelasi antar fitur dalam dataset:
 ![alt text](https://github.com/Podjan/ResNet2/blob/main/Feature%20heatmap.png?raw=true)
 
 Pada gambar heatmap terdapat satu korelasi yang melebihi 0.80, korelasi tersebut antara kolom accomodate_log dengan beds_log. Ini menunjukkan adanya hubungan linier yang kuat antara kedua fitur tersebut. Dalam kasus seperti ini, biasanya perlu memilih salah satu fitur untuk di-drop dan kami memilih accomodate_log di drop dikarenakan untuk kolom beds_log akan kami gunakan untuk membuat feature baru. Alasan kami nge-drop karena korelasi tinggi (≥0.8) antara dua fitur menunjukkan redundansi informasi, sehingga salah satunya perlu dihapus untuk menghindari multikolinearitas. Multikolinearitas dapat memengaruhi stabilitas model dan membuat estimasi koefisien pada model regresi menjadi tidak dapat diandalkan.
 
-## Feature Extraction
+### Feature Extraction
 Pada tahap Feature Extraction, kami fokus pada pembuatan fitur baru yang dapat meningkatkan kinerja model dan memberikan wawasan lebih dalam terhadap data. Fitur baru ini dibangun dengan menggunakan transformasi logaritma dan kombinasi beberapa fitur yang ada, dengan tujuan untuk memperbaiki representasi data yang lebih informatif. Berikut adalah beberapa fitur baru yang telah kami buat:
 
 1. price_per_bed: Mengukur harga per tempat tidur.
