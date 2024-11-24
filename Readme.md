@@ -505,7 +505,7 @@ Pada tahap ini, mengubah data kategorikal menjadi bentuk numerik agar dapat digu
 
 ### Feature Selection
 Pada tahap ini, kami melakukan analisis untuk memilih kolom-kolom yang relevan dan membuang kolom yang dapat menyebabkan masalah multikolinearitas. Salah satu metode yang digunakan untuk menganalisis hubungan antar fitur adalah dengan menggunakan heatmap. Heatmap berikut menunjukkan korelasi antar fitur dalam dataset:
-![alt text](https://github.com/Podjan/ResNet2/blob/main/Feature%20heatmap.png?raw=true)
+![alt text](https://github.com/Podjan/ResNet2/blob/main/images/Feature%20heatmap.png?raw=true)
 
 Pada gambar heatmap terdapat satu korelasi yang melebihi 0.80, korelasi tersebut antara kolom accomodate_log dengan beds_log. Ini menunjukkan adanya hubungan linier yang kuat antara kedua fitur tersebut. Dalam kasus seperti ini, biasanya perlu memilih salah satu fitur untuk di-drop dan kami memilih accomodate_log di drop dikarenakan untuk kolom beds_log akan kami gunakan untuk membuat feature baru. Alasan kami nge-drop karena korelasi tinggi (≥0.8) antara dua fitur menunjukkan redundansi informasi, sehingga salah satunya perlu dihapus untuk menghindari multikolinearitas. Multikolinearitas dapat memengaruhi stabilitas model dan membuat estimasi koefisien pada model regresi menjadi tidak dapat diandalkan.
 
