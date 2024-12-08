@@ -14,6 +14,7 @@ Dalam final project ini, kelompok kami ingin membuat machine learning yang bertu
 - [Stage 0](#stage-0)
 - [Stage 1](#stage-1)
 - [Stage 2](#stage-2)
+- [Stage 3](#stage-3)
 
 ## Prerequisites
 1. Download data [here](https://drive.google.com/drive/folders/1q0uoNhUzHYL3TmhfwtFL-Xnb26rwOzRF?usp=sharing)
@@ -35,7 +36,6 @@ Dalam final project ini, kelompok kami ingin membuat machine learning yang bertu
 - Math: 3.12.4 
 
 ## Stage 0
-![drawioflowstage0](images/drawioflowstage0.png)
 ### Overview
 Data berisi tempat penyewaan properti Airbnb di kota seattle beberapa tahun terakhir. Data terdiri dari reviews, kalender, dan propertinya.
 
@@ -43,18 +43,24 @@ Data berisi tempat penyewaan properti Airbnb di kota seattle beberapa tahun tera
 Airbnb merasa persaingan di dunia travel semakin meningkat terutama di daerah seattle. Oleh karena itu Airbnb merasa perlu menguasai pasar perhotelan di Seattle dengan menambah jumlah customer di Seattle. Airbnb menyadari bahwa diperlukan upaya strategis untuk memperkuat posisinya di pasar perhotelan di Seattle. Meningkatnya jumlah hotel dan penyedia akomodasi lainnya, baik yang berskala besar maupun kecil, menyebabkan Airbnb merasa harus melakukan tindakan proaktif untuk memenangkan pasar di tahun berikutnya.
 
 ### Goal
-Goals yang ingin dicapai dalam studi case ini adalah meningkatkan jumlah customer AirBnB di tahun berikutnya dengan memberikan wawasan yang akurat kepada pemilik AirBNB mengenai jenis properti yang paling diminati oleh tamu dan tingkat kepuasan para tamu, sehingga mereka dapat mengoptimalkan strategi pemasaran, penetapan harga, dan pengelolaan inventaris di tahun berikutnya.
+Goals yang ingin dicapai dalam studi case ini adalah meningkatkan jumlah income dan customer AirBnB di tahun berikutnya dengan memberikan wawasan yang akurat kepada pemilik AirBNB mengenai jenis properti yang paling diminati oleh tamu dan tingkat kepuasan para tamu, sehingga mereka dapat mengoptimalkan strategi pemasaran, penetapan harga, dan pengelolaan inventaris di tahun berikutnya.
 
+## Business Metric
 ### Objectives
-1. Memprediksi jumlah pengunjung di tahun berikutnya berdasarkan kualitas dan harga.
-2. Meningkatkan tingkat kepuasan customer terhadap kualitas hotel yang pengunjungnya sepi.
-3. Memprediksi harga hotel di tahun depan untuk memberikan rekomendasi harga yang tepat di setiap hotel.
+1. Melakukan prediksi terhadap rata-rata income per bulan dari listing.
+2. Melakukan prediksi terhadap rata-rata customer per bulan dari listing.
 
-### Business Metric
-![businessmetric](images/businessmetric.png)
+### KPI
+Untuk objective pertama
+- Akurasi prediksi lebih dari 75%.
+- Meningkatkan rata-rata income per bulan sebesar 10%.
+
+Untuk objective kedua
+- Akurasi prediksi lebih dari 75%.
+- Meningkatan customer rata-rata per bulan menjadi lebih dari 20%.
+
 
 ## Stage 1
-![drawioflowstage1](images/drawioflowstage1.png)
 ### Dataset
 Ada tiga dataset pada pekerjaan kali ini. 
 1. **Calendar** yang berisi tentang data penghasilan dari AirBnB selama setahun.
@@ -90,32 +96,27 @@ Ada tiga dataset pada pekerjaan kali ini.
    dfl2['latitude'] = dfl2['latitude'].astype(str)
    dfl2['longitude'] = dfl2['longitude'].astype(str)
    ```
+5. Melakukan groupby sehingga mendapatkan mean income per bulan dan mean customer per bulan
+   ``` python
+   df1g3 = df1g2.groupby(['listing_id']).agg(
+    mean_income=('pendapatan_per_bulan', 'mean'),
+    mean_customer=('jumlah_customer', 'mean')).reset_index()
+    ```
 5. Memasukkan kolom jumlah id dari dataset calendar ke dataset listing.
    ```python
-   df1g2 = df1g [['listing_id', 'pendapatan_per_bulan','jumlah_customer']]
-   df1g3 = df1g2.groupby(['listing_id']).agg(
-       total_pendapatan=('pendapatan_per_bulan', 'sum'),
-       total_customer=('jumlah_customer', 'sum')).reset_index()
    # Menggabungkan df1g3 dan dfl2 berdasarkan 'listing_id dengan tujuan memembuat kolom jumlah_id di dataset listing
    dfl3 = pd.merge(df1g3, dfl2, on='listing_id', how='left')
    ```
-6. Sekarang kita punya dua dataframe/dataset yang akan diolah
+6. Sekarang kita punya dataframe/dataset yang akan diolah
    ```python
-   df1 
    df2 = dfl3
    ```
 
 ### Dataset yang akan digunakan
-#### df1 (dataset calendar final)
-- listing_id
-- date
-- bulan_num **(tambahan fitur di dataset calendar)**
-- tahun **(tambahan fitur di dataset calendar)**
-- pendapatan
 #### df2 (dataset listing final)
 - listing_id
-- total_pendapatan **(tambahan fitur di dataset listing)**
-- total_customer **(tambahan fitur di dataset listing)**
+- mean_income **(tambahan fitur di dataset listing)**
+- mean_customer **(tambahan fitur di dataset listing)**
 - name
 - host_id
 - host_response_time
@@ -156,31 +157,7 @@ Ada tiga dataset pada pekerjaan kali ini.
 ### EDA
 #### Descriptive Statistic
 Pada proses descriptive statistic ini, berguna untuk melihat nilai statistika dari setiap data yang sudah diolah sebelumnya. Pada bagian ini descriptive statistic menampilkan 2 data frame yang berguna untuk mempertimbangkan analisis selanjutnya.
-#### df1
-df1 merupakan data frame yang data sourcenya diambil dari dataset calendar. Sebelum dilakukan data cleansing terdapat sekitar 1.393.570 rows yang kemudian diolah dengan membuang missing valuenya sehingga feature payment yang awalnya 459028 didrop semua menjadi 0.
 
- | Features                 | Before | After |
- |--------------------------|--------|-------|
- | pendapatan               | 459028 | 0     |
-
-Salah satu pertimbangan melakukan drop terhadap missing value adalah karena listing yang available saat itu berstatus false artinya pada saat itu penginapannya tidak available dan tidak ada proses transaksi pada listing tersebut. Hal ini sangat mempengaruhi proses selanjutnya mengingat goal yang ingin dicapai yaitu memprediksi jumlah pengunjung di tahun berikutnya dan memprediksi harga hotel di tahun depan, jadi membersihkan data null sangatlah penting dalam proses ini.    
-
-Saat ini df1 mempunyai jumlah row sebanyak 934.542. Data tersebut adalah data transaksi dari semua listing.
- 
-Adapun hasil descriptive statistic nya adalah sbb:
-
-|       |       listing_id | date                          |    bulan_num |          tahun |   pendapatan |
-|:------|-----------------:|:------------------------------|-------------:|---------------:|-------------:|
-| count | 934542           | 934542                        | 934542       | 934542         |   934542     |
-| mean  |      5.30552e+06 | 2016-07-08 08:12:42.911458560 |      6.66112 |   2016.01      |      137.945 |
-| min   |   3335           | 2016-01-04 00:00:00           |      1       |   2016         |       10     |
-| 25%   |      2.87598e+06 | 2016-04-07 00:00:00           |      4       |   2016         |       75     |
-| 50%   |      5.61562e+06 | 2016-07-08 00:00:00           |      7       |   2016         |      109     |
-| 75%   |      7.87334e+06 | 2016-10-09 00:00:00           |     10       |   2016         |      160     |
-| max   |      1.03402e+07 | 2017-01-02 00:00:00           |     12       |   2017         |     1650     |
-| std   |      2.97482e+06 | nan                           |      3.4464  |      0.0778456 |      105.063 |
-
-Dari hasil descriptive statistic tidak menunjukkan adanya data yang invalid dan sebagian besar datanya berasal dari tahun 2016 dengan rata-rata distribusi datanya berada dipertengahan bulan sekitar Juni-Juli. median dan mean pendapatan yang lebih tinggi dari standar devian menunjukkan data terkonsentrasi di nilai tengah. Karena mean pendapatan lebih tinggi dari median, maka data ini berbentuk right skewed. Standar devian yang mendekati nilai median pendapatan juga menunjukkan sebaran data yang lebar. Bentuk dari date bisa diperbaiki saat data transformation.
 
 #### df2
 df2 adalah data frame yang data source nya diambil dari dataset listing_id. data ini sangat berguna dalam analisis tingkat kepuasan customer. 
@@ -256,15 +233,6 @@ Dari data tersebut tidak menunjukkan adanya data yang invalid. Selain itu, beber
 
 ### Univariate Analysis
 Pada analisis univariate, untuk df2, kami mengelompokkan kolom yang bertipe float dan integer ke kolom bernama nums (numerical). Karena ada 21, kami membagi nums tersebut menjadi 5, yaitu nums21,nums22, nums23, nums 24, dan nums25. Tujuannya, agar tidak memberatkan pc saat melakukan run codingnya.
-#### df1
-![df1](images/df1.png)
-1. **Listing ID**:
-Rentang nilai Listing ID sangat lebar. Tidak ada outlier yang signifikan.
-2. **Date**: Distribusi data sangat merata di sekitar bulan 4-10.
-3. **Bulan_num**: Distribusi data sangat merata dengan rentang bulan 4-10 (sama seperti date).
-4. **Pendapatan**: Terdapat outlier yang sangat banyak mulai diatas 250 dollar.
-5. **Tahun**: Data sebagian besar ada di 2016 akan tetapi ada outlier pada 2017 yang harus di analisis.
-Untuk tahun 2017, data terakhir tahun 2017 adalah tanggal 2 bulan Januari 2017. Untuk date pertama di tanggal 4 bulan Januari 2016
 
 #### df2
 #### nums21
@@ -301,17 +269,6 @@ Untuk tahun 2017, data terakhir tahun 2017 adalah tanggal 2 bulan Januari 2017. 
 6. **review_scores_value**: Skor nilai tinggi, menunjukkan tamu merasa puas dengan harga yang dibayar sesuai fasilitas yang diterima.
 
 ### Multivariate Analysis
-#### df1
-**Heatmap df1**
-![heatmapdf1](images/heatmapdf1.png)
-Heatmap ini menunjukkan matriks korelasi antar variabel dalam dataset, yaitu bulan_num, pendapatan, dan tahun. Berikut penjelasan dari korelasi antar variabel:
-1. tahun dengan bulan_num (-0.13):
-Korelasi negatif lemah, yang menunjukkan bahwa ketika tahun meningkat, bulan_num cenderung sedikit menurun. Namun, hubungan ini tidak terlalu kuat, sehingga tidak ada keterkaitan yang jelas antara tahun dan bulan_num.
-2. tahun dengan pendapatan (-0.00):
-Korelasinya negatif (hampir nol (karena angka dibelakang komanya hanya 2 jadi kelihatannya 0 padahal tidak)), yang menunjukkan bahwa ketika tahun naik maka pendapatan turun. Tetapi karena korelasinya sangat mendekati 0, maka tidak ada hubungan linear antara tahun dan pendapatan. Hal ini juga dikarenakan data tahun 2017 sangat sedikit, berakhir di tanggal 6 Januari 2017.
-3. bulan_num dengan pendapatan (0.04):
-Korelasi positif, ketidka bulan semakin mendekati akhir tahun maka pendapatan juga meningkat. Tetapi korelasinya hampir nol, menunjukkan tidak ada hubungan linear yang signifikan antara bulan_num dan median_price. Ini berarti bahwa perubahan dalam bulan_num tidak mempengaruhi pendapatan secara konsisten.
-
 
 #### df2
 **Heatmap df2**
@@ -360,12 +317,9 @@ Korelasi positif, ketidka bulan semakin mendekati akhir tahun maka pendapatan ju
 ![top10ratinghigh](images/top10ratinghigh.png)
 ![top10ratinglow](images/top10ratinglow.png)
 
-## STAGE 2 : DATA PREPROCESSING
+## Stage 2
 Dataset df2 akan digunakan sebagai dataset final. Karena kami akan memprediksi pendapatan dan jumlah customer yang akan diterima oleh listing tahun depan, maka fitur target adalah total_pendapatan dan total_customer. Df1 dan df3 digunakan jika ingin melakukan penelitian lebih lanjut
 
-Saat ini, kita masih berada di tahap research, data preparation.
-
-![drawioflowstage2](images/drawioflowstage2.png)
 
 ### Handiling Missing Value dan Data Duplicate
 1. Handling Missing Value
@@ -509,80 +463,81 @@ Pada tahap ini, kami melakukan analisis untuk memilih kolom-kolom yang relevan d
 
 Pada gambar heatmap terdapat satu korelasi yang melebihi 0.80, korelasi tersebut antara kolom accomodate_log dengan beds_log. Ini menunjukkan adanya hubungan linier yang kuat antara kedua fitur tersebut. Dalam kasus seperti ini, biasanya perlu memilih salah satu fitur untuk di-drop dan kami memilih accomodate_log di drop dikarenakan untuk kolom beds_log akan kami gunakan untuk membuat feature baru. Alasan kami nge-drop karena korelasi tinggi (≥0.8) antara dua fitur menunjukkan redundansi informasi, sehingga salah satunya perlu dihapus untuk menghindari multikolinearitas. Multikolinearitas dapat memengaruhi stabilitas model dan membuat estimasi koefisien pada model regresi menjadi tidak dapat diandalkan.
 
-### Feature Extraction
-Pada tahap Feature Extraction, kami fokus pada pembuatan fitur baru yang dapat meningkatkan kinerja model dan memberikan wawasan lebih dalam terhadap data. Fitur baru ini dibangun dengan menggunakan transformasi logaritma dan kombinasi beberapa fitur yang ada, dengan tujuan untuk memperbaiki representasi data yang lebih informatif. Berikut adalah beberapa fitur baru yang telah kami buat:
 
-1. price_per_bed: Mengukur harga per tempat tidur.
-2. revenue_per_bedrooms: Mengukur pendapatan per kamar tidur.
-3. room_bath_ratio: Mengukur rasio kamar tidur terhadap kamar mandi.
-4. revenue_per_bathrooms: Mengukur pendapatan per kamar mandi.
+## Stage 3
+Sebelumnya, kami melakukan pengurangan fitur lagi. Sehingga fitur dan target dari model kami adalah
+``` Python
+X = numeric_df[['review_scores_accuracy',
+       'review_scores_checkin', 'review_scores_location',
+       'review_scores_rating_kategori', 'host_response_rate_kategori',
+       'host_acceptance_rate_kategori', 'bedrooms_log', 'price_log',
+       'guests_included_log', 'minimum_nights_log', 'maximum_nights_log']]
 
-Dengan menciptakan fitur-fitur baru ini, kami berharap dapat memperoleh model yang lebih baik dalam memprediksi harga atau pendapatan properti berdasarkan fasilitas yang ada.
+# Target untuk model 1: mean_income
+y_income = numeric_df['mean_income']
 
-Fitur final yang akan dipakai:
-note: listing_id tidak digunakan dalam regresi. Targetnya adalah total_customer dan total_pendapatan_log
+# Target untuk model 2: mean_customer
+y_customer = numeric_df['mean_customer']
+```
 
+Kami menerapkan beberapa model yaitu
+- Liniear Regression
+- Random Forest
+- SVR
+- SVR dengan PCA
 
-| #   | Column                                 | Count | Non-Null | Dtype    |
-| --- | -------------------------------------- | ----- | --------------- | -------- |
-| 0   | listing_id                             | 3723  | non-null        | int64    |
-| 1   | total_customer                         | 3723  | non-null        | int64    |
-| 2   | host_id                                | 3723  | non-null        | object   |
-| 3   | zipcode                                | 3723  | non-null        | object   |
-| 4   | latitude                               | 3723  | non-null        | object   |
-| 5   | longitude                              | 3723  | non-null        | object   |
-| 6   | review_scores_accuracy                 | 3723  | non-null        | float64  |
-| 7   | review_scores_cleanliness              | 3723  | non-null        | float64  |
-| 8   | review_scores_checkin                  | 3723  | non-null        | float64  |
-| 9   | review_scores_communication            | 3723  | non-null        | float64  |
-| 10  | review_scores_location                 | 3723  | non-null        | float64  |
-| 11  | review_scores_value                    | 3723  | non-null        | float64  |
-| 12  | review_scores_rating_kategori          | 3723  | non-null        | int32    |
-| 13  | host_response_rate_kategori            | 3723  | non-null        | int32    |
-| 14  | host_acceptance_rate_kategori          | 3723  | non-null        | int32    |
-| 15  | total_pendapatan_log                   | 3723  | non-null        | float64  |
-| 16  | bathrooms_log                          | 3723  | non-null        | float64  |
-| 17  | bedrooms_log                           | 3723  | non-null        | float64  |
-| 18  | beds_log                               | 3723  | non-null        | float64  |
-| 19  | price_log                              | 3723  | non-null        | float64  |
-| 20  | weekly_price_log                       | 3723  | non-null        | float64  |
-| 21  | monthly_price_log                      | 3723  | non-null        | float64  |
-| 22  | guests_included_log                    | 3723  | non-null        | float64  |
-| 23  | minimum_nights_log                     | 3723  | non-null        | float64  |
-| 24  | maximum_nights_log                     | 3723  | non-null        | float64  |
-| 25  | host_response_time_within a day        | 3723  | non-null        | bool     |
-| 26  | host_response_time_within a few hours  | 3723  | non-null        | bool     |
-| 27  | host_response_time_within an hour      | 3723  | non-null        | bool     |
-| 28  | host_is_superhost_t                    | 3723  | non-null        | bool     |
-| 29  | host_identity_verified_t               | 3723  | non-null        | bool     |
-| 30  | is_location_exact_t                    | 3723  | non-null        | bool     |
-| 31  | property_type_Bed & Breakfast          | 3723  | non-null        | bool     |
-| 32  | property_type_Boat                     | 3723  | non-null        | bool     |
-| 33  | property_type_Bungalow                 | 3723  | non-null        | bool     |
-| 34  | property_type_Cabin                    | 3723  | non-null        | bool     |
-| 35  | property_type_Camper/RV                | 3723  | non-null        | bool     |
-| 36  | property_type_Chalet                   | 3723  | non-null        | bool     |
-| 37  | property_type_Condominium              | 3723  | non-null        | bool     |
-| 38  | property_type_Dorm                     | 3723  | non-null        | bool     |
-| 39  | property_type_House                    | 3723  | non-null        | bool     |
-| 40  | property_type_Loft                     | 3723  | non-null        | bool     |
-| 41  | property_type_Other                    | 3723  | non-null        | bool     |
-| 42  | property_type_Tent                     | 3723  | non-null        | bool     |
-| 43  | property_type_Townhouse                | 3723  | non-null        | bool     |
-| 44  | property_type_Treehouse                | 3723  | non-null        | bool     |
-| 45  | property_type_Yurt                     | 3723  | non-null        | bool     |
-| 46  | room_type_Private room                 | 3723  | non-null        | bool     |
-| 47  | room_type_Shared room                  | 3723  | non-null        | bool     |
-| 48  | bed_type_Couch                         | 3723  | non-null        | bool     |
-| 49  | bed_type_Futon                         | 3723  | non-null        | bool     |
-| 50  | bed_type_Pull-out Sofa                 | 3723  | non-null        | bool     |
-| 51  | bed_type_Real Bed                      | 3723  | non-null        | bool     |
-| 52  | instant_bookable_t                     | 3723  | non-null        | bool     |
-| 53  | cancellation_policy_moderate           | 3723  | non-null        | bool     |
-| 54  | cancellation_policy_strict             | 3723  | non-null        | bool     |
-| 55  | require_guest_profile_picture_t        | 3723  | non-null        | bool     |
-| 56  | require_guest_phone_verification_t     | 3723  | non-null        | bool     |
-| 57  | price_per_bed                          | 3723  | non-null        | float64  |
-| 58  | revenue_per_bedrooms                   | 3723  | non-null        | float64  |
-| 59  | room_bath_ratio                        | 3723  | non-null        | float64  |
-| 60  | revenue_per_bathrooms                  | 3723  | non-null        | float64  |
+Hasilnya untuk mean_income setelah hyperparameter tuning adalah
+1. - Liniear Regression(mean_income) = MSE: 2534494.87, R²: 0.64
+   - Liniear Regression(mean_customer) = MSE: 34.12, R²: 0.01
+2. - Random Forest(mean_income) = MSE: 1870348.6047, R²: 0.7363
+   - Random Forest(mean_customer) = MSE: 15094751.2895, R²: -437289.1579
+3. - SVR(mean_income) = MSE: 2849079.6007, R² (Testing): 0.5984
+   - SVR(mean_customer) = MSE: 38.7633, R² (Testing): -0.1230
+4. - SVR dengan PCA(mean_income) = MSE: 1234142.4142, R²: 0.8260
+   - SVR dengan PCA(mean_customer) = MSE: 4.3432, R²: 0.8742
+
+Karena hanya SVR dengan PCA yang dua model dimana salah satunya tidak mempunyai R² negatif, maka model tersebut yang kami pakai.
+SVR dengan PCA sendiri tidak mengalami overfitting atau underfitting yang besar, masih dibawah 10% perbedaannya.
+
+Evaluasi Model SVR dengan PCA (mean_income):
+MSE (Training): 1113254.0475
+R² (Training): 0.8258
+MSE (Testing): 1234142.4142
+R² (Testing): 0.8260
+
+Evaluasi Model SVR dengan PCA (mean_customer):
+MSE (Training): 6.0575
+R² (Training): 0.8077
+MSE (Testing): 4.3432
+R² (Testing) : 0.8742
+
+Untuk PC yang paling berpengaruh dari masing-masing target adalah sebagai berikut:
+![fpincome](images/fpincome.png)
+![fpcustomer](images/fpcustomer.png)
+
+Untuk mean_income, PC paling tinggi adalah PC1. Untuk mean_customer, PC paling tinggi adalah PC4. 
+
+Tetapi, kita juga ingin tahu PC mana yang paling berkontribusi positif dengan targetnya.
+![kpc_income](images/kpc_income.png)
+![kpc_customer](images/kpc_customer.png)
+Yang paling berpengaruh positif terhadap mean_income adalah PC1, sedangkan untuk mean_customer adalah PC5
+
+Selain itu, kita juga ingin tahu hubungan di dalam fitur dari PC1 dan PC5
+![kfa_income](images/kfa_income.png)
+![kfa_customer](images/kfa_customer.png)
+
+Hasil dari metode PCA lebih rumit untuk di interpretasi daripada metode/model lain karena PCA adalah mereduksi dimensi. Dan PC adalah gabungan dari berbagai fitur. Jika kita lihat, di PC1 yang targetnya adalah mean_income, fitur maximum_night, price_log, dan review_score_rating_kategori memiliki kontribusi negatif 3 tertinggi dengan PC1. Sedangkan review_score_checkin, review_score_accuracy, dan minimum night adalah top 3 fitur yang memiliki kontribusi positif dengan PC1. Hal ini tentu terlihat aneh, contohnya kenapa price_log berkorelasi negatif dengan income? Perlu kita ingat, bahwa PCA itu menangkap semua fitur dan karenanya hasilnya dipengaruhi dari kombinasi fitur-fitur yang kompleks. Selain itu, PCA bekerja dengan variance data, bukan hubungan langsung atau hubungan linear antara fitur dengan target, sehingga terkadang membuat hasil yang lebih tidak intuitif.
+
+Oleh karena itu untuk menaikkan income, rekomendasi bisnis dari kami adalah
+- Meningkatkan Review Score dan Customer Experience.
+- Kontrol harga. Price_log yang mempunyai korelasi negatif dengan income bisa saja didasari karena orang-orang lebih suka harga yang lebih murah.
+- Naikkan batas dari lama menginap minimum. Dari PC1 ini kita bisa melihat orang suka dengan lama menginap minimum yang lebih tinggi.
+
+Di PC5, top 3 fitur yang paling tinggi positif adalah price_log, bedroom_log, dan guest_included_log. Sedangkan top 3 fitur kontribusi negatif adalah review_score_accuracy, review_score_checkin, dan review_score_rating_kategori. Hal yang aneh contohnya adalah kenapa price_log berkorelasi positif dengan mean_customer. Kita juga tahu bahwa PC5 berpengaruh positif dengan customer yang artinya kombinasi fitur fitur yang berkorelasi positif di dalam pc5 sangat mempengaruhi apakah customer akan menyewa listing atau tidak. Dari hasil ini, bukan berarti naiknya harga akan menaikkan customer, karena ada variable lain. Contoh, walaupun harga yang tinggi, tetapi dibarengi dengan jumlah tempat tidur yang banyak, lebih disukai customer.
+
+Rekomendasi bisnis dari kami untuk menaikkan customer
+- Menaikkan jumlah tempat tidur di masing-masing listing karena pelanggan cenderung tertarik dengan listing yang banyak tempat tidurnya.
+- Sama seperti cara untuk menaikkan income, naikkan batas minimum lama menginap juga bisa menarik pelanggan.
+- Naikkan jumlah tamu yang diperbolehkan. Hal ini dapat menarik customer.
+
+Hal yang bertentangan adalah price log. Kalau kita lihat, price_log meningkat maka akan menurunkan income tetapi meningkatkan customer. Tetapi kalau kita lihat dari korelasi, price_log dengan mean_income mempunyai korelasi positif dengan mean_income (0.800623) tetapi mempunyai korelasi negatif dengan mean_customer (-0.000483). Hasil ini berkontradiksi dengan PCA. Oleh sebab itu saran dari kami adalah membuat segemntasi pasar. Untuk listing yang sudah mempunyai harga yang tinggi, misalnya 25% dari total listing, maka mereka bisa menaikkan harga mereka tetapi dengan peningkatan kualitas dan saran yang kami berikan sebelumnya. Untuk listing lainnya, kami tidak merekomendasikan menaikkan atau menurunkan harga, tetapi untuk saran kami yang sebelumnya tetap dilakukan.
