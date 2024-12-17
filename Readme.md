@@ -6,6 +6,7 @@ Dalam final project ini, kelompok kami ingin membuat machine learning yang bertu
 - Data Analyst    : Indah Mutiah Utami. MZ
 - Data Engineer   : Yusuf Nafi Farhan
 - Data Scientist  : Julian
+- Supervisor      : Nurul Akbar Tanjung
 
 ## Daftar Isi
 - [Prerequisites](#prerequisites)
