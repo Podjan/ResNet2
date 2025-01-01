@@ -1,14 +1,13 @@
-# Seattle AirBnB Listing Dataset (Rakamin Academy Final Project)
-Dalam final project ini, kelompok kami ingin membuat machine learning yang bertujuan untuk memberikan wawasan yang diperlukan dan dapat membantu AirBnB dalam meningkatkan jumlah customer di Kota Seattle sehingga posisi mereka di pasar Kota Seattle semakin kuat. 
+# Predictive Analytics for Growth: Strategic Recommendations for Airbnb in Seattle (Rakamin Academy Data Scientist Bootcamp Final Project)
 
-## Kelompok 2 ResNet
+## ResNet Team
 - Project Manager : Mohammad Fauzan
 - Data Analyst    : Indah Mutiah Utami. MZ
 - Data Engineer   : Yusuf Nafi Farhan
 - Data Scientist  : Julian
 - Supervisor      : Nurul Akbar Tanjung
 
-## Daftar Isi
+## Contents
 - [Prerequisites](#prerequisites)
 - [Flow](#flow)
 - [Library dan Version](#library-dan-version)
@@ -16,13 +15,13 @@ Dalam final project ini, kelompok kami ingin membuat machine learning yang bertu
 - [Stage 1](#stage-1)
 - [Stage 2](#stage-2)
 - [Stage 3](#stage-3)
+- [Stage 4](#stage-4)
 
 ## Prerequisites
 1. Download data [here](https://drive.google.com/drive/folders/1q0uoNhUzHYL3TmhfwtFL-Xnb26rwOzRF?usp=sharing)
-2. Clone repositori ini:
+2. Clone this repository:
    ```bash
    git clone https://github.com/Podjan/ResNet2.git
-3. Folder images berisi tentang gambar sepeti grafik dan tabel yang digunakan pada penelitian ini.
 
 ## Flow
 ![drawioflow](images/drawioflow.png)
@@ -38,10 +37,10 @@ Dalam final project ini, kelompok kami ingin membuat machine learning yang bertu
 
 ## Stage 0
 ### Overview
-Data berisi tempat penyewaan properti Airbnb di kota seattle beberapa tahun terakhir. Data terdiri dari reviews, kalender, dan propertinya.
+The data contains Airbnb rental properties in the city of Seattle. The data consists of three datasets: calendar, listing and review datasets.
 
 ### Problem
-Airbnb merasa persaingan di dunia travel semakin meningkat terutama di daerah seattle. Oleh karena itu Airbnb merasa perlu menguasai pasar perhotelan di Seattle dengan menambah jumlah customer di Seattle. Airbnb menyadari bahwa diperlukan upaya strategis untuk memperkuat posisinya di pasar perhotelan di Seattle. Meningkatnya jumlah hotel dan penyedia akomodasi lainnya, baik yang berskala besar maupun kecil, menyebabkan Airbnb merasa harus melakukan tindakan proaktif untuk memenangkan pasar di tahun berikutnya.
+At the start of a new year, Airbnb aims to increase both revenue and the number of customers utilizing its accommodation services. This effort also seeks to maintain competitive positioning in the marketplace. Hosts face challenges in optimizing their listings performance due to limited insights into the factors influencing customer acquisition and revenue. This project seeks to identify the key drivers of Income and Customer, leveraging advanced modeling techniques to deliver actionable business recommendations and empower hosts to enhance their listing performance.
 
 ### Goal
 Goals yang ingin dicapai dalam studi case ini adalah meningkatkan jumlah income dan customer AirBnB di tahun berikutnya dengan memberikan wawasan yang akurat kepada pemilik AirBNB mengenai jenis properti yang paling diminati oleh tamu dan tingkat kepuasan para tamu, sehingga mereka dapat mengoptimalkan strategi pemasaran, penetapan harga, dan pengelolaan inventaris di tahun berikutnya.
