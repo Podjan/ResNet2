@@ -33,7 +33,13 @@
 - Seaborn: 0.13.2
 - Geopy: 2.4.1
 - Scikit-learn: 1.4.2
-- Math: 3.12.4 
+- Math: 3.12.4
+
+## Deployment In Local
+1. Install 
+   `pip install streamlit pandas numpy scikit-learn joblib`
+2.  Run in your local terminal
+   `streamlit run deploy-v1` or `streamlit run deploy-v1`
 
 ## Stage 0
 ### Overview
