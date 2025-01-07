@@ -1,4 +1,6 @@
 # Predictive Analytics for Growth: Strategic Recommendations for Airbnb in Seattle (Rakamin Academy Data Scientist Bootcamp Final Project)
+- Our application is available on [streamlit-cloud](https://resnet2-deployy.streamlit.app/)
+- CSV tamplate to try our application >>> [sample-data](https://drive.google.com/file/d/1QPgiJT44dmH-6Dh_2Odu2mvbIbf_wEtt/view?usp=sharing)
 
 ## ResNet Team
 - Project Manager : Mohammad Fauzan
@@ -34,12 +36,8 @@
 - Geopy: 2.4.1
 - Scikit-learn: 1.4.2
 - Math: 3.12.4
+- Joblib : 1.4.2
 
-## Deployment In Local
-1. Install 
-   `pip install streamlit pandas numpy scikit-learn joblib`
-2.  Run in your local terminal
-   `streamlit run deploy-v1` or `streamlit run deploy-v1`
 
 ## Stage 0
 ### Overview
@@ -547,3 +545,16 @@ Rekomendasi bisnis dari kami untuk menaikkan customer
 - Naikkan jumlah tamu yang diperbolehkan. Hal ini dapat menarik customer.
 
 Hal yang bertentangan adalah price log. Kalau kita lihat, price_log meningkat maka akan menurunkan income tetapi meningkatkan customer. Tetapi kalau kita lihat dari korelasi, price_log dengan mean_income mempunyai korelasi positif dengan mean_income (0.800623) tetapi mempunyai korelasi negatif dengan mean_customer (-0.000483). Hasil ini berkontradiksi dengan PCA. Oleh sebab itu saran dari kami adalah membuat segemntasi pasar. Untuk listing yang sudah mempunyai harga yang tinggi, misalnya 25% dari total listing, maka mereka bisa menaikkan harga mereka tetapi dengan peningkatan kualitas dan saran yang kami berikan sebelumnya. Untuk listing lainnya, kami tidak merekomendasikan menaikkan atau menurunkan harga, tetapi untuk saran kami yang sebelumnya tetap dilakukan.
+
+## Stage 4 
+### Deployment 
+1. Install the required libraries: 
+   `pip install streamlit pandas numpy scikit-learn joblib`
+2. Make python file for deployment and unsure the code is free of bugs.
+3. Run in local terminal
+  `streamlit run your_file_deploy.py` ex: `streamlit run deploy-v1`
+4. Ensure the requirements.txt file is available. This file is essential for deploying on the cloud because the application will not run on Streamlit Cloud without it. The requirements.txt file should include all necessary libraries.
+5. Access [streamlit-cloud](https://streamlit.io/cloud) and login with github.
+6. Create app.
+7. Select your repository and deployment file.
+8. Wait a moment, and the deployment will run on Streamlit Cloud.
