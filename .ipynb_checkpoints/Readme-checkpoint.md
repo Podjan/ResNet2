@@ -550,7 +550,7 @@ Hal yang bertentangan adalah price log. Kalau kita lihat, price_log meningkat ma
 ### Deployment 
 1. Install the required libraries: 
    `pip install streamlit pandas numpy scikit-learn joblib`
-2. Make python file for deployment and unsure the code is free of bugs.
+2. Make python file for deployment and ensure the code is free of bugs.
 3. Run in local terminal
   `streamlit run your_file_deploy.py` ex: `streamlit run deploy-v1`
 4. Ensure the requirements.txt file is available. This file is essential for deploying on the cloud because the application will not run on Streamlit Cloud without it. The requirements.txt file should include all necessary libraries.
