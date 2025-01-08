@@ -1,10 +1,8 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA
 import joblib
+import matplotlib.pyplot as plt
 from geopy.geocoders import Nominatim
 
 # Load the saved models
@@ -82,3 +80,52 @@ if uploaded_file is not None:
 
     st.write("Mean Predicted Income:", np.mean(y_income_pred))
     st.write("Mean Predicted Customer Count:", np.mean(y_customer_pred))
+
+    st.subheader("Analysis of PCA Components and Feature Importance")
+     # PCA components that most influence the target
+    feature_importance_income = pd.DataFrame({
+        'Feature': [f'PC{i+1}' for i in range(pca.n_components_)],
+        'Importance': np.abs(best_svr_income.coef_).flatten()
+    }).sort_values(by='Importance', ascending=True)
+
+    feature_importance_customer = pd.DataFrame({
+        'Feature': [f'PC{i+1}' for i in range(pca.n_components_)],
+        'Importance': np.abs(best_svr_customer.coef_).flatten()
+    }).sort_values(by='Importance', ascending=True)
+
+    most_important_pc_income = feature_importance_income.iloc[-1]
+    st.write("PCA most influences mean_income:")
+    st.write(most_important_pc_income)
+
+    most_important_pc_customer = feature_importance_customer.iloc[-1]
+    st.write("PCA most influences mean_customer:")
+    st.write(most_important_pc_customer)
+
+    # Loading matrix
+    loadings = pd.DataFrame(
+        pca.components_.T, 
+        columns=[f'PC{i+1}' for i in range(pca.n_components_)], 
+        index=features
+    )
+
+    # The original features that contribute most to an essential PC
+    loadings_for_key_pc_income = loadings[most_important_pc_income['Feature']].sort_values(key=abs, ascending=False)
+    loadings_for_key_pc_customer = loadings[most_important_pc_customer['Feature']].sort_values(key=abs, ascending=False)
+
+    st.write(loadings_for_key_pc_income)
+    st.write(loadings_for_key_pc_customer)
+
+    # Plotting the contributions for mean_income
+    plt.figure(figsize=(10, 6))
+    plt.barh(loadings_for_key_pc_income.index, loadings_for_key_pc_income.values, color='purple')
+    plt.xlabel('Loading Contribution')
+    plt.title(f'Original Feature Contribution on {most_important_pc_income['Feature']}')
+    st.pyplot(plt)
+
+     # Plotting the contributions for mean_customer
+    plt.figure(figsize=(10, 6))
+    plt.barh(loadings_for_key_pc_customer.index, loadings_for_key_pc_customer.values, color='orange')
+    plt.xlabel('Loading Contribution')
+    plt.title(f'Original Feature Contribution on {most_important_pc_customer["Feature"]}')
+    st.pyplot(plt)
+
