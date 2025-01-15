@@ -162,7 +162,7 @@ The steps are
    - 61-80: Average
    - 81-90: Good
    - 91-100: Very Good
-3. We create log coloumn for total_pendapatan, accommodates, bathrooms, bedrooms, beds, price, weekly_price, monthly_price, guests_included, minimum_nights, maximum_nights.
+3. We create log coloumn for accommodates, bathrooms, bedrooms, beds, price, weekly_price, monthly_price, guests_included, minimum_nights, maximum_nights.
 
 
 The result will be like this:
