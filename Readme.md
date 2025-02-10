@@ -11,7 +11,7 @@
 ## Contents
 - [Prerequisites](#prerequisites)
 - [Flow](#flow)
-- [Library dan Version](#library-dan-version)
+- [Library and Version](#library-and-version)
 - [Stage 0](#stage-0)
 - [Stage 1](#stage-1)
 - [Stage 2](#stage-2)
@@ -27,7 +27,7 @@
 ## Flow
 ![flowfinpro](imagefinpro/flowfinpro.png)
 
-## Library dan Version
+## Library and Version
 - Numpy: 1.26.4
 - Pandas: 2.2.2
 - Matplotlib.pyplot: 3.8.4
